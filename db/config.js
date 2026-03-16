@@ -1,15 +1,20 @@
-import { Sequelize } from 'sequelize';
-import { dbConfig } from '../app/common/config.js';
+const { dbConfig } = require('../app/common/config.js');
 
-const sequelize = new Sequelize(
-  dbConfig.name,
-  dbConfig.user,
-  dbConfig.password,
-  {
+module.exports = {
+  development: {
+    username: dbConfig.user,
+    password: dbConfig.password,
+    database: dbConfig.name,
     host: dbConfig.host,
     port: dbConfig.port,
     dialect: 'postgres',
-  }
-);
-
-export default sequelize;
+  },
+  production: {
+    username: dbConfig.user,
+    password: dbConfig.password,
+    database: dbConfig.name,
+    host: dbConfig.host,
+    port: dbConfig.port,
+    dialect: 'postgres',
+  },
+};

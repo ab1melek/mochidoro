@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "migrations:run": "npx sequelize-cli db:migrate",
+    "migrations:revert": "npx sequelize-cli db:migrate:undo",
+    "migrations:delete": "npx sequelize-cli db:migrate:undo:all"
   },
   "dependencies": {
     "dotenv": "^17.3.1",

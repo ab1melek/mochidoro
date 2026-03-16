@@ -1,0 +1,6 @@
+@hostname = {{$dotenv HOST}}
+@port = {{$dotenv PORT}}
+@baseUrl = http://{{hostname}}:{{port}}
+
+### Health Check
+GET {{baseUrl}}/api/v1
