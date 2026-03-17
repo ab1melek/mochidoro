@@ -13,10 +13,8 @@ const UserSchema = {
     allowNull: false,
     unique: true,
   },
-  passwordHash: {
-    type: DataTypes.STRING(255),
-    allowNull: false,
-    field: 'password_hash',
+  googleId: {
+  unique: true
   },
   coins: {
     type: DataTypes.INTEGER,

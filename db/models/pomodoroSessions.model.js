@@ -11,6 +11,7 @@ const PomodoroSessionSchema = {
   userId: { type: DataTypes.INTEGER, allowNull: false, references: { model: 'users', key: 'id' }, field: 'user_id' },
   durationMinutes: { type: DataTypes.INTEGER, allowNull: false, field: 'duration_minutes' },
   coinsEarned: { type: DataTypes.INTEGER, defaultValue: 0, field: 'coins_earned' },
+  isActive: { type: DataTypes.BOOLEAN, defaultValue: true, field: 'is_active' },
   createdAt: { type: DataTypes.DATE, defaultValue: 'CURRENT_TIMESTAMP', field: 'created_at' }
 };
 

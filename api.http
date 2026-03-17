@@ -4,3 +4,37 @@
 
 ### Health Check
 GET {{baseUrl}}/api/v1
+
+### Pomodoro - START
+POST {{baseUrl}}/api/v1/pomodoro/start
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "durationMinutes": 25
+}
+
+### Pomodoro - PAUSE
+POST {{baseUrl}}/api/v1/pomodoro/pause
+Content-Type: application/json
+
+{
+  "sessionId": 5239
+}
+
+### Pomodoro - RESTART
+POST {{baseUrl}}/api/v1/pomodoro/restart
+Content-Type: application/json
+
+{
+  "sessionId": 5239
+}
+
+### Pomodoro - END
+POST {{baseUrl}}/api/v1/pomodoro/end
+Content-Type: application/json
+
+{
+  "sessionId": 5239,
+  "durationMinutes": 25
+}
