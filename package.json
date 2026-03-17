@@ -19,7 +19,8 @@
     "pg-hstore": "^2.3.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "sequelize": "^6.37.8"
+    "sequelize": "^6.37.8",
+    "server-only": "^0.0.1"
   },
   "devDependencies": {
     "eslint": "^9.0.0",

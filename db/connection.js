@@ -1,3 +1,5 @@
+
+
 const { Sequelize } = require('sequelize');
 const { dbConfig } = require('../app/common/config.js');
 

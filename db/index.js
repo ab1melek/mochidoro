@@ -1,14 +1,16 @@
+require('server-only');
+
 const sequelize = require('./connection');
 
-const { createUserModel } = require('./User');
-const { createDailyStreakModel } = require('./DailyStreak');
-const { createPetSpeciesModel } = require('./PetSpecies');
-const { createPetModel } = require('./Pet');
-const { createPomodoroSessionModel } = require('./PomodoroSession');
-const { createItemModel } = require('./Item');
-const { createInventoryModel } = require('./Inventory');
-const { createPetItemModel } = require('./PetItem');
-const { createEggOpeningModel } = require('./EggOpening');
+const { createUserModel } = require('./models/user.model.js');
+const { createDailyStreakModel } = require('./models/dailyStreak.model.js');
+const { createPetSpeciesModel } = require('./models/petSpecies.model.js');
+const { createPetModel } = require('./models/pet.model.js');
+const { createPomodoroSessionModel } = require('./models/pomodoroSessions.model.js');
+const { createItemModel } = require('./models/item.model.js');
+const { createInventoryModel } = require('./models/inventory.model.js');
+const { createPetItemModel } = require('./models/petItem.model.js');
+const { createEggOpeningModel } = require('./models/eggOpening.model.js');
 
 const User = createUserModel(sequelize);
 const DailyStreak = createDailyStreakModel(sequelize);

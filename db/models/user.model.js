@@ -14,7 +14,10 @@ const UserSchema = {
     unique: true,
   },
   googleId: {
-  unique: true
+    type: DataTypes.STRING(255),
+    allowNull: true,
+    unique: true,
+    field: 'google_id',
   },
   coins: {
     type: DataTypes.INTEGER,
@@ -27,12 +30,12 @@ const UserSchema = {
   },
   createdAt: {
     type: DataTypes.DATE,
-    defaultValue: 'CURRENT_TIMESTAMP',
+    defaultValue: DataTypes.NOW,
     field: 'created_at',
   },
   updatedAt: {
     type: DataTypes.DATE,
-    defaultValue: 'CURRENT_TIMESTAMP',
+    allowNull: true,
     field: 'updated_at',
   }
 };

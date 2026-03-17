@@ -5,6 +5,9 @@
 ### Health Check
 GET {{baseUrl}}/api/v1
 
+### DEBUG - Seed Test User
+POST {{baseUrl}}/api/v1/debug/seed-user
+
 ### Pomodoro - START
 POST {{baseUrl}}/api/v1/pomodoro/start
 Content-Type: application/json
