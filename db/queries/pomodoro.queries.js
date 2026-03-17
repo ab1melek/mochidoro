@@ -3,20 +3,20 @@
  * Interactúan directamente con los modelos Sequelize
  */
 
-// Importar modelos (se inyectarán desde la inicialización)
-let PomodoroSession;
-let User;
-
-const setPomodoroModels = (models) => {
-  PomodoroSession = models.PomodoroSession;
-  User = models.User;
+// Importar dinámicamente
+const getModels = async () => {
+  const { User, PomodoroSession } = await import('../models/user.model.js');
+  const { User: UserModel, PomodoroSession: PomodoroSessionModel } = await import('../index.js');
+  return { User: UserModel, PomodoroSession: PomodoroSessionModel };
 };
 
 /**
  * Crear una nueva sesión de pomodoro
  */
 const createPomodoroSession = async (userId, durationMinutes) => {
-  console.log('[QUERY] Creating pomodoro session...');
+  const { PomodoroSession } = await import('../index.js');
+  
+  console.log('[QUERY] Creando sesión en BD...');
   
   const session = await PomodoroSession.create({
     userId,
@@ -25,7 +25,7 @@ const createPomodoroSession = async (userId, durationMinutes) => {
     isActive: true,
   });
 
-  console.log('[QUERY] ✅ Sesión creada en BD:', session.toJSON());
+  console.log('[QUERY] ✅ Sesión creada:', session.id);
   return session;
 };
 
@@ -33,7 +33,9 @@ const createPomodoroSession = async (userId, durationMinutes) => {
  * Obtener sesión por ID
  */
 const getPomodoroSessionById = async (sessionId) => {
-  console.log('[QUERY] Obteniendo sesión:', sessionId);
+  const { PomodoroSession } = await import('../index.js');
+  
+  console.log('[QUERY] Buscando sesión:', sessionId);
   
   const session = await PomodoroSession.findByPk(sessionId);
 
@@ -41,7 +43,7 @@ const getPomodoroSessionById = async (sessionId) => {
     throw new Error('Sesión no encontrada');
   }
 
-  console.log('[QUERY] ✅ Sesión obtenida:', session.toJSON());
+  console.log('[QUERY] ✅ Sesión encontrada');
   return session;
 };
 
@@ -49,28 +51,26 @@ const getPomodoroSessionById = async (sessionId) => {
  * Actualizar sesión
  */
 const updatePomodoroSession = async (sessionId, updateData) => {
-  console.log('[QUERY] Actualizando sesión:', sessionId);
-  console.log('[QUERY] Datos a actualizar:', updateData);
+  const { PomodoroSession } = await import('../index.js');
   
-  const [updatedRows, updatedData] = await PomodoroSession.update(updateData, {
-    where: { id: sessionId },
-    returning: true,
-  });
+  console.log('[QUERY] Actualizando sesión:', sessionId);
+  console.log('[QUERY] Datos:', updateData);
 
-  if (updatedRows === 0) {
-    throw new Error('No se pudo actualizar la sesión');
-  }
+  await PomodoroSession.update(updateData, { where: { id: sessionId } });
 
-  console.log('[QUERY] ✅ Sesión actualizada:', updatedData[0].toJSON());
-  return updatedData[0];
+  const updated = await PomodoroSession.findByPk(sessionId);
+  
+  console.log('[QUERY] ✅ Sesión actualizada');
+  return updated;
 };
 
 /**
  * Actualizar monedas del usuario
  */
 const addCoinsToUser = async (userId, coinsToAdd) => {
-  console.log('[QUERY] Agregando monedas al usuario:', userId);
-  console.log('[QUERY] Monedas a sumar:', coinsToAdd);
+  const { User } = await import('../index.js');
+  
+  console.log('[QUERY] Sumando monedas al usuario:', userId, 'Monedas:', coinsToAdd);
   
   const user = await User.findByPk(userId);
 
@@ -81,12 +81,11 @@ const addCoinsToUser = async (userId, coinsToAdd) => {
   const newCoins = (user.coins || 0) + coinsToAdd;
   await user.update({ coins: newCoins });
 
-  console.log('[QUERY] ✅ Monedas actualizadas. Total monedas:', newCoins);
-  return user;
+  console.log('[QUERY] ✅ Monedas actualizadas. Total:', newCoins);
+  return newCoins;
 };
 
 module.exports = {
-  setPomodoroModels,
   createPomodoroSession,
   getPomodoroSessionById,
   updatePomodoroSession,

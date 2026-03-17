@@ -1,15 +1,9 @@
 /**
  * POST /api/v1/pomodoro/start
  * Inicia una nueva sesión de pomodoro
- * 
- * Body:
- * {
- *   userId: number,
- *   durationMinutes: number (25 | 60 | 5 | 15)
- * }
  */
 
-const { startPomodoro } = require('../pomodoro.service');
+const { startPomodoroService } = require('../pomodoro.service');
 
 export async function POST(request) {
   try {
@@ -18,21 +12,14 @@ export async function POST(request) {
     const body = await request.json();
     const { userId, durationMinutes } = body;
 
-    console.log('[ROUTE] Body recibido:', { userId, durationMinutes });
+    console.log('[ROUTE] Body:', { userId, durationMinutes });
 
-    // Validaciones
-    if (!userId) {
-      throw new Error('userId es requerido');
-    }
-    if (!durationMinutes || durationMinutes <= 0) {
-      throw new Error('durationMinutes debe ser mayor a 0');
+    if (!userId || !durationMinutes) {
+      throw new Error('userId y durationMinutes son requeridos');
     }
 
-    console.log('[ROUTE] ✅ Validaciones básicas OK');
-
-    const session = startPomodoro(userId, durationMinutes);
-
-    console.log('[ROUTE] ✅ Respondiendo con la sesión');
+    // Llamar al service (que orquesta functions y queries)
+    const session = await startPomodoroService(userId, durationMinutes);
 
     return Response.json(
       {

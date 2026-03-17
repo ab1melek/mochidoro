@@ -1,14 +1,9 @@
 /**
  * POST /api/v1/pomodoro/pause
- * Pausa una sesión de pomodoro en curso
- * 
- * Body:
- * {
- *   sessionId: number
- * }
+ * Pausa una sesión de pomodoro
  */
 
-const { pausePomodoro } = require('../pomodoro.service');
+const { pausePomodoroService } = require('../pomodoro.service');
 
 export async function POST(request) {
   try {
@@ -17,18 +12,14 @@ export async function POST(request) {
     const body = await request.json();
     const { sessionId } = body;
 
-    console.log('[ROUTE] Body recibido:', { sessionId });
+    console.log('[ROUTE] Body:', { sessionId });
 
-    // Validaciones
     if (!sessionId) {
       throw new Error('sessionId es requerido');
     }
 
-    console.log('[ROUTE] ✅ Validaciones OK');
-
-    const session = pausePomodoro(sessionId);
-
-    console.log('[ROUTE] ✅ Respondiendo con la sesión pausada');
+    // Llamar al service
+    const session = await pausePomodoroService(sessionId);
 
     return Response.json(
       {

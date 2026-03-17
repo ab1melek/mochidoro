@@ -1,44 +1,31 @@
 /**
  * POST /api/v1/pomodoro/end
- * Termina una sesión de pomodoro y calcula las monedas ganadas
- * 
- * Body:
- * {
- *   sessionId: number,
- *   durationMinutes: number
- * }
+ * Finaliza una sesión de pomodoro y suma monedas
  */
 
-const { endPomodoro } = require('../pomodoro.service');
+const { endPomodoroService } = require('../pomodoro.service');
 
 export async function POST(request) {
   try {
     console.log('[ROUTE] POST /api/v1/pomodoro/end');
     
     const body = await request.json();
-    const { sessionId, durationMinutes } = body;
+    const { sessionId, durationMinutes, userId } = body;
 
-    console.log('[ROUTE] Body recibido:', { sessionId, durationMinutes });
+    console.log('[ROUTE] Body:', { sessionId, durationMinutes, userId });
 
-    // Validaciones
-    if (!sessionId) {
-      throw new Error('sessionId es requerido');
-    }
-    if (!durationMinutes || durationMinutes <= 0) {
-      throw new Error('durationMinutes debe ser mayor a 0');
+    if (!sessionId || !durationMinutes || !userId) {
+      throw new Error('sessionId, durationMinutes y userId son requeridos');
     }
 
-    console.log('[ROUTE] ✅ Validaciones OK');
-
-    const session = endPomodoro(sessionId, durationMinutes);
-
-    console.log('[ROUTE] ✅ Respondiendo con la sesión finalizada');
+    // Llamar al service
+    const result = await endPomodoroService(sessionId, durationMinutes, userId);
 
     return Response.json(
       {
         success: true,
         message: 'Pomodoro finalizado',
-        data: session,
+        data: result,
       },
       { status: 200 }
     );

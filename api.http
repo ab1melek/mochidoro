@@ -22,7 +22,7 @@ POST {{baseUrl}}/api/v1/pomodoro/pause
 Content-Type: application/json
 
 {
-  "sessionId": 5239
+  "sessionId": 1
 }
 
 ### Pomodoro - RESTART
@@ -30,7 +30,7 @@ POST {{baseUrl}}/api/v1/pomodoro/restart
 Content-Type: application/json
 
 {
-  "sessionId": 5239
+  "sessionId": 1
 }
 
 ### Pomodoro - END
@@ -38,6 +38,7 @@ POST {{baseUrl}}/api/v1/pomodoro/end
 Content-Type: application/json
 
 {
-  "sessionId": 5239,
-  "durationMinutes": 25
+  "sessionId": 1,
+  "durationMinutes": 25,
+  "userId": 1
 }
