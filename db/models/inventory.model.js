@@ -7,7 +7,7 @@ const InventorySchema = {
   userId: { type: DataTypes.INTEGER, allowNull: false, references: { model: 'users', key: 'id' }, field: 'user_id' },
   itemId: { type: DataTypes.INTEGER, allowNull: false, references: { model: 'items', key: 'id' }, field: 'item_id' },
   quantity: { type: DataTypes.INTEGER, defaultValue: 0 },
-  createdAt: { type: DataTypes.DATE, defaultValue: 'CURRENT_TIMESTAMP', field: 'created_at' }
+  createdAt: { type: DataTypes.DATE, defaultValue: DataTypes.NOW, field: 'created_at' }
 };
 
 const createInventoryModel = (sequelize) => {

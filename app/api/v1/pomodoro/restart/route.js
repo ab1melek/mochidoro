@@ -1,6 +1,6 @@
 /**
  * POST /api/v1/pomodoro/restart
- * Reinicia una sesión de pomodoro
+ * Reanuda la última sesión pausada del usuario
  */
 
 const { restartPomodoroService } = require('../pomodoro.service');
@@ -10,16 +10,16 @@ export async function POST(request) {
     console.log('[ROUTE] POST /api/v1/pomodoro/restart');
     
     const body = await request.json();
-    const { sessionId } = body;
+    const { userId } = body;
 
-    console.log('[ROUTE] Body:', { sessionId });
+    console.log('[ROUTE] Body:', { userId });
 
-    if (!sessionId) {
-      throw new Error('sessionId es requerido');
+    if (!userId) {
+      throw new Error('userId es requerido');
     }
 
     // Llamar al service
-    const session = await restartPomodoroService(sessionId);
+    const session = await restartPomodoroService(userId);
 
     return Response.json(
       {

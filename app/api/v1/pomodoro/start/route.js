@@ -10,16 +10,16 @@ export async function POST(request) {
     console.log('[ROUTE] POST /api/v1/pomodoro/start');
     
     const body = await request.json();
-    const { userId, durationMinutes } = body;
+    const { userId, type } = body;
 
-    console.log('[ROUTE] Body:', { userId, durationMinutes });
+    console.log('[ROUTE] Body:', { userId, type });
 
-    if (!userId || !durationMinutes) {
-      throw new Error('userId y durationMinutes son requeridos');
+    if (!userId || !type) {
+      throw new Error('userId y type son requeridos');
     }
 
     // Llamar al service (que orquesta functions y queries)
-    const session = await startPomodoroService(userId, durationMinutes);
+    const session = await startPomodoroService(userId, type);
 
     return Response.json(
       {

@@ -1,6 +1,7 @@
 /**
  * POST /api/v1/pomodoro/end
- * Finaliza una sesión de pomodoro y suma monedas
+ * Finaliza la sesión activa del usuario y suma monedas
+ * Body: { userId, minutesCompleted }
  */
 
 const { endPomodoroService } = require('../pomodoro.service');
@@ -10,16 +11,16 @@ export async function POST(request) {
     console.log('[ROUTE] POST /api/v1/pomodoro/end');
     
     const body = await request.json();
-    const { sessionId, durationMinutes, userId } = body;
+    const { userId, minutesCompleted } = body;
 
-    console.log('[ROUTE] Body:', { sessionId, durationMinutes, userId });
+    console.log('[ROUTE] Body:', { userId, minutesCompleted });
 
-    if (!sessionId || !durationMinutes || !userId) {
-      throw new Error('sessionId, durationMinutes y userId son requeridos');
+    if (!userId || minutesCompleted === undefined) {
+      throw new Error('userId y minutesCompleted son requeridos');
     }
 
-    // Llamar al service
-    const result = await endPomodoroService(sessionId, durationMinutes, userId);
+    // Llamar al service (que obtiene la sesión activa automáticamente)
+    const result = await endPomodoroService(userId, minutesCompleted);
 
     return Response.json(
       {

@@ -8,37 +8,56 @@ GET {{baseUrl}}/api/v1
 ### DEBUG - Seed Test User
 POST {{baseUrl}}/api/v1/debug/seed-user
 
-### Pomodoro - START
+### Pomodoro - START (session: 25min)
 POST {{baseUrl}}/api/v1/pomodoro/start
 Content-Type: application/json
 
 {
   "userId": 1,
-  "durationMinutes": 25
+  "type": "session"
 }
 
-### Pomodoro - PAUSE
-POST {{baseUrl}}/api/v1/pomodoro/pause
+### Pomodoro - START (long-session: 60min)
+POST {{baseUrl}}/api/v1/pomodoro/start
 Content-Type: application/json
 
 {
-  "sessionId": 1
+  "userId": 1,
+  "type": "long-session"
 }
 
-### Pomodoro - RESTART
-POST {{baseUrl}}/api/v1/pomodoro/restart
+### Pomodoro - START (break: 5min)
+POST {{baseUrl}}/api/v1/pomodoro/start
 Content-Type: application/json
 
 {
-  "sessionId": 1
+  "userId": 1,
+  "type": "break"
 }
 
-### Pomodoro - END
+### Pomodoro - START (long-break: 15min)
+POST {{baseUrl}}/api/v1/pomodoro/start
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "type": "long-break"
+}
+
+### Pomodoro - END (completó 25 minutos - gana monedas)
 POST {{baseUrl}}/api/v1/pomodoro/end
 Content-Type: application/json
 
 {
-  "sessionId": 1,
-  "durationMinutes": 25,
-  "userId": 1
+  "userId": 1,
+  "minutesCompleted": 25
+}
+
+### Pomodoro - END (completó solo 10 minutos - NO gana monedas)
+POST {{baseUrl}}/api/v1/pomodoro/end
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "minutesCompleted": 10
 }

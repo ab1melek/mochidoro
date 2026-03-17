@@ -9,10 +9,11 @@ const PomodoroSessionSchema = {
     autoIncrement: true,
   },
   userId: { type: DataTypes.INTEGER, allowNull: false, references: { model: 'users', key: 'id' }, field: 'user_id' },
-  durationMinutes: { type: DataTypes.INTEGER, allowNull: false, field: 'duration_minutes' },
+  type: { type: DataTypes.ENUM('session', 'break', 'long-session', 'long-break'), allowNull: false },
+  minutesCompleted: { type: DataTypes.INTEGER, field: 'minutes_completed' },
   coinsEarned: { type: DataTypes.INTEGER, defaultValue: 0, field: 'coins_earned' },
   isActive: { type: DataTypes.BOOLEAN, defaultValue: true, field: 'is_active' },
-  createdAt: { type: DataTypes.DATE, defaultValue: 'CURRENT_TIMESTAMP', field: 'created_at' }
+  createdAt: { type: DataTypes.DATE, defaultValue: DataTypes.NOW, field: 'created_at' }
 };
 
 const createPomodoroSessionModel = (sequelize) => {

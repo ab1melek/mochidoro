@@ -6,7 +6,7 @@ const PetItemSchema = {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   petId: { type: DataTypes.INTEGER, allowNull: false, references: { model: 'pets', key: 'id' }, field: 'pet_id' },
   itemId: { type: DataTypes.INTEGER, allowNull: false, references: { model: 'items', key: 'id' }, field: 'item_id' },
-  createdAt: { type: DataTypes.DATE, defaultValue: 'CURRENT_TIMESTAMP', field: 'created_at' }
+  createdAt: { type: DataTypes.DATE, defaultValue: DataTypes.NOW, field: 'created_at' }
 };
 
 const createPetItemModel = (sequelize) => {

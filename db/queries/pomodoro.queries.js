@@ -11,21 +11,44 @@ const getModels = async () => {
 };
 
 /**
- * Crear una nueva sesión de pomodoro
+ * Verificar si hay sesión activa para el usuario
  */
-const createPomodoroSession = async (userId, durationMinutes) => {
+const getActiveSessionByUserId = async (userId) => {
+  const { PomodoroSession } = await import('../index.js');
+  
+  console.log('[QUERY] Buscando sesión activa para usuario:', userId);
+  
+  const activeSession = await PomodoroSession.findOne({
+    where: { userId, isActive: true },
+  });
+
+  if (activeSession) {
+    console.log('[QUERY] ⚠️ Sesión activa encontrada:', activeSession.id);
+    return activeSession;
+  }
+
+  console.log('[QUERY] ✅ No hay sesión activa');
+  return null;
+};
+
+/**
+ * Crear una nueva sesión de pomodoro
+ * @param {number} userId - ID del usuario
+ * @param {string} type - Tipo de sesión: 'session', 'long-session', 'break', 'long-break'
+ */
+const createPomodoroSession = async (userId, type) => {
   const { PomodoroSession } = await import('../index.js');
   
   console.log('[QUERY] Creando sesión en BD...');
   
   const session = await PomodoroSession.create({
     userId,
-    durationMinutes,
+    type,
     coinsEarned: 0,
     isActive: true,
   });
 
-  console.log('[QUERY] ✅ Sesión creada:', session.id);
+  console.log('[QUERY] ✅ Sesión creada:', session.id, 'Tipo:', type);
   return session;
 };
 
@@ -54,14 +77,35 @@ const updatePomodoroSession = async (sessionId, updateData) => {
   const { PomodoroSession } = await import('../index.js');
   
   console.log('[QUERY] Actualizando sesión:', sessionId);
-  console.log('[QUERY] Datos:', updateData);
+  console.log('[QUERY] Datos a actualizar:', updateData);
 
-  await PomodoroSession.update(updateData, { where: { id: sessionId } });
+  try {
+    // Actualizar la sesión
+    const result = await PomodoroSession.update(updateData, { 
+      where: { id: sessionId },
+    });
 
-  const updated = await PomodoroSession.findByPk(sessionId);
-  
-  console.log('[QUERY] ✅ Sesión actualizada');
-  return updated;
+    console.log('[QUERY] Update resultado:', result);
+
+    // Obtener la sesión actualizada
+    const updated = await PomodoroSession.findByPk(sessionId);
+    
+    if (!updated) {
+      throw new Error('No se pudo recuperar la sesión actualizada');
+    }
+
+    console.log('[QUERY] ✅ Sesión actualizada correctamente');
+    console.log('[QUERY] Estado final:', { 
+      id: updated.id, 
+      isActive: updated.isActive, 
+      coinsEarned: updated.coinsEarned 
+    });
+    
+    return updated;
+  } catch (error) {
+    console.error('[QUERY ERROR] Error al actualizar:', error.message);
+    throw error;
+  }
 };
 
 /**
@@ -86,6 +130,7 @@ const addCoinsToUser = async (userId, coinsToAdd) => {
 };
 
 module.exports = {
+  getActiveSessionByUserId,
   createPomodoroSession,
   getPomodoroSessionById,
   updatePomodoroSession,

@@ -23,9 +23,9 @@ const PetSchema = {
   hunger: { type: DataTypes.INTEGER, defaultValue: 80 }, 
   happiness: { type: DataTypes.INTEGER, defaultValue: 80 }, 
   level: { type: DataTypes.INTEGER, defaultValue: 1 },
-  lastStateUpdateAt: { type: DataTypes.DATE, defaultValue: 'CURRENT_TIMESTAMP', field: 'last_state_update_at' },
-  createdAt: { type: DataTypes.DATE, defaultValue: 'CURRENT_TIMESTAMP', field: 'created_at' },
-  updatedAt: { type: DataTypes.DATE, defaultValue: 'CURRENT_TIMESTAMP', field: 'updated_at' }
+  lastStateUpdateAt: { type: DataTypes.DATE, defaultValue: DataTypes.NOW, field: 'last_state_update_at' },
+  createdAt: { type: DataTypes.DATE, defaultValue: DataTypes.NOW, field: 'created_at' },
+  updatedAt: { type: DataTypes.DATE, defaultValue: DataTypes.NOW, field: 'updated_at' }
 };
 
 const createPetModel = (sequelize) => {

@@ -3,90 +3,73 @@
  * Llama a ambas capas y combina la lógica
  */
 
-const { validateDuration, calculateCoins } = require('./pomodoro.functions');
-const { createPomodoroSession, getPomodoroSessionById, updatePomodoroSession, addCoinsToUser } = require('../../../db/queries/pomodoro.queries');
+const { validateSessionType, calculateSessionResult } = require('./pomodoro.functions');
+const { getActiveSessionByUserId, createPomodoroSession, getPomodoroSessionById, updatePomodoroSession, addCoinsToUser } = require('../../../../db/queries/pomodoro.queries');
 
 /**
  * START - Iniciar sesión de pomodoro
+ * @param {number} userId - ID del usuario
+ * @param {string} type - Tipo de sesión: 'session', 'long-session', 'break', 'long-break'
  */
-const startPomodoroService = async (userId, durationMinutes) => {
+const startPomodoroService = async (userId, type) => {
   console.log('[SERVICE] Iniciando pomodoro...');
 
-  // 1. Validar duración (FUNCTION)
-  validateDuration(durationMinutes);
+  // 1. Validar tipo de sesión (FUNCTION)
+  validateSessionType(type);
 
-  // 2. Crear en BD (QUERY)
-  const session = await createPomodoroSession(userId, durationMinutes);
+  // 2. Validar que no haya otra sesión activa (QUERY)
+  const activeSession = await getActiveSessionByUserId(userId);
+  if (activeSession) {
+    throw new Error(`Ya tienes una sesión activa. Finalízala primero (ID: ${activeSession.id})`);
+  }
+
+  // 3. Crear en BD (QUERY)
+  const session = await createPomodoroSession(userId, type);
 
   console.log('[SERVICE] ✅ Pomodoro iniciado');
   return session;
 };
 
 /**
- * PAUSE - Pausar sesión
- */
-const pausePomodoroService = async (sessionId) => {
-  console.log('[SERVICE] Pausando pomodoro...');
-
-  // 1. Obtener sesión (QUERY)
-  await getPomodoroSessionById(sessionId);
-
-  // 2. Actualizar estado (QUERY)
-  const updated = await updatePomodoroSession(sessionId, { isActive: false });
-
-  console.log('[SERVICE] ✅ Pomodoro pausado');
-  return updated;
-};
-
-/**
- * RESTART - Reanudar sesión
- */
-const restartPomodoroService = async (sessionId) => {
-  console.log('[SERVICE] Reanudando pomodoro...');
-
-  // 1. Obtener sesión (QUERY)
-  await getPomodoroSessionById(sessionId);
-
-  // 2. Actualizar estado (QUERY)
-  const updated = await updatePomodoroSession(sessionId, { isActive: true });
-
-  console.log('[SERVICE] ✅ Pomodoro reanudado');
-  return updated;
-};
-
-/**
  * END - Finalizar sesión y ganar monedas
+ * @param {number} userId - ID del usuario
+ * @param {number} minutesCompleted - Minutos que realmente completó
  */
-const endPomodoroService = async (sessionId, durationMinutes, userId) => {
+const endPomodoroService = async (userId, minutesCompleted) => {
   console.log('[SERVICE] Finalizando pomodoro...');
 
-  // 1. Validar duración (FUNCTION)
-  validateDuration(durationMinutes);
+  // 1. Obtener la sesión activa del usuario (QUERY)
+  const activeSession = await getActiveSessionByUserId(userId);
+  if (!activeSession) {
+    throw new Error('No hay sesión activa para finalizar');
+  }
 
-  // 2. Calcular monedas (FUNCTION)
-  const coinsEarned = calculateCoins(durationMinutes);
+  // 2. Calcular resultado (monedas y si se completó) (FUNCTION)
+  const { coins: coinsEarned, isCompleted } = calculateSessionResult(activeSession.type, minutesCompleted);
 
   // 3. Actualizar sesión (QUERY)
-  const updated = await updatePomodoroSession(sessionId, {
+  console.log('[SERVICE] Marcando sesión como inactiva...');
+  const updated = await updatePomodoroSession(activeSession.id, {
+    minutesCompleted,
     coinsEarned,
     isActive: false,
   });
 
-  // 4. Sumar monedas al usuario (QUERY)
-  await addCoinsToUser(userId, coinsEarned);
+  // 4. Sumar monedas al usuario solo si se completó (QUERY)
+  if (isCompleted) {
+    await addCoinsToUser(userId, coinsEarned);
+  }
 
-  console.log('[SERVICE] ✅ Pomodoro finalizado');
+  console.log('[SERVICE] ✅ Pomodoro finalizado. Completado:', isCompleted, 'Monedas ganadas:', coinsEarned);
   return {
-    session: updated,
     coinsEarned,
+    minutesCompleted,
+    isCompleted,
+    message: isCompleted ? 'Sesión completada exitosamente' : 'Sesión no completada',
   };
 };
 
 module.exports = {
   startPomodoroService,
-  pausePomodoroService,
-  restartPomodoroService,
   endPomodoroService,
-};
-  endPomodoro,
 };
