@@ -25,7 +25,13 @@ const dbConfig = {
     password: process.env.DB_PASSWORD || 'postgres',
 };
 
+const googleAuthConfig = {
+  clientId: process.env.GOOGLE_ID,
+  clientSecret: process.env.GOOGLE_SECRET,
+};
+
 module.exports = {
   appConfig,
   dbConfig,
+  googleAuthConfig,
 };
