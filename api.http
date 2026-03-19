@@ -8,6 +8,9 @@ GET {{baseUrl}}/api/v1
 ### DEBUG - Seed Test User
 POST {{baseUrl}}/api/v1/debug/seed-user
 
+### DEBUG - Seed Species (Mochi)
+POST {{baseUrl}}/api/v1/debug/seed-species
+
 ### Pomodoro - START (session: 25min)
 POST {{baseUrl}}/api/v1/pomodoro/start
 Content-Type: application/json
@@ -60,4 +63,22 @@ Content-Type: application/json
 {
   "userId": 1,
   "minutesCompleted": 10
+}
+
+### Pets - BUY EGG (Mochi: 25 monedas)
+POST {{baseUrl}}/api/v1/pets/buy-egg
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "speciesId": 1
+}
+
+### Pets - HATCH EGG
+POST {{baseUrl}}/api/v1/pets/hatch
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "eggId": 1
 }

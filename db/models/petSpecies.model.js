@@ -10,10 +10,11 @@ const PetSpeciesSchema = {
   },
   name: { type: DataTypes.STRING(80), allowNull: false },
   rarity: { type: DataTypes.STRING(20), allowNull: false }, // common, rare, epic...
+  cost: { type: DataTypes.INTEGER, allowNull: false }, // Costo del huevo en monedas
   imageUrl: { type: DataTypes.STRING(255), allowNull: true, field: 'image_url' },
   baseHunger: { type: DataTypes.INTEGER, defaultValue: 80, field: 'base_hunger' },
   baseHappiness: { type: DataTypes.INTEGER, defaultValue: 80, field: 'base_happiness' },
-  createdAt: { type: DataTypes.DATE, defaultValue: 'CURRENT_TIMESTAMP', field: 'created_at' }
+  createdAt: { type: DataTypes.DATE, defaultValue: DataTypes.NOW, field: 'created_at' }
 };
 
 const createPetSpeciesModel = (sequelize) => {

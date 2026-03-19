@@ -60,11 +60,46 @@ const endPomodoroService = async (userId, minutesCompleted) => {
     await addCoinsToUser(userId, coinsEarned);
   }
 
+  let petHatched = null;
+
+  // 5. Si la sesión se completó, agregar minutos al huevo (QUERY)
+  if (isCompleted) {
+    const petQueries = await import('../../../../db/queries/pets.queries.js');
+    const petFunctions = await import('../pets/pets.functions.js');
+    
+    const egg = await petQueries.getUnhatchedEggByUserId(userId);
+    
+    if (egg) {
+      console.log('[SERVICE] 🥚 Actualizando minutos del huevo...');
+      const { totalMinutes } = await petQueries.updateEggMinutes(egg.id, minutesCompleted);
+
+      // Si el huevo alcanzó 60 minutos, crear la mascota automáticamente
+      if (totalMinutes >= 60) {
+        console.log('[SERVICE] 🎉 ¡Huevo listo para eclosionar! Creando mascota...');
+        
+        // Generar nombre y crear mascota
+        const species = await petQueries.getSpeciesById(egg.speciesId);
+        const petName = petFunctions.generatePetName(species.name);
+        const pet = await petQueries.createPet(userId, egg.speciesId, petName);
+        await petQueries.markEggAsOpened(egg.id);
+        
+        petHatched = {
+          petId: pet.id,
+          petName: petName,
+          speciesName: species.name,
+        };
+        
+        console.log('[SERVICE] ✅ ¡Mascota ' + petName + ' ha nacido!');
+      }
+    }
+  }
+
   console.log('[SERVICE] ✅ Pomodoro finalizado. Completado:', isCompleted, 'Monedas ganadas:', coinsEarned);
   return {
     coinsEarned,
     minutesCompleted,
     isCompleted,
+    petHatched,
     message: isCompleted ? 'Sesión completada exitosamente' : 'Sesión no completada',
   };
 };
