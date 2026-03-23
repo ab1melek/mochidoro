@@ -1,0 +1,60 @@
+.selectorContainer {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin: 0.5rem 0 0 0;
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 0.75rem;
+  width: 100%;
+  justify-content: center;
+}
+
+.sessionButton {
+  flex: 1;
+  max-width: 130px;
+  padding: 0.8rem 1.2rem;
+  border: 2px solid #ddd;
+  background: white;
+  cursor: pointer;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.sessionButton:hover:not(:disabled) {
+  border-color: #ff9800;
+  background: #fff8f0;
+  box-shadow: 0 4px 12px rgba(255, 152, 0, 0.15);
+}
+
+.sessionButton.active {
+  background: #ff9800;
+  color: white;
+  border-color: #ff9800;
+  box-shadow: 0 4px 12px rgba(255, 152, 0, 0.3);
+}
+
+.sessionButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .buttonGroup {
+    gap: 0.5rem;
+  }
+
+  .sessionButton {
+    max-width: 100%;
+    padding: 0.7rem 1rem;
+    font-size: 0.85rem;
+  }
+}

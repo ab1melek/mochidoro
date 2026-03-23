@@ -97,7 +97,7 @@ const updatePomodoroSession = async (sessionId, updateData) => {
     console.log('[QUERY] ✅ Sesión actualizada correctamente');
     console.log('[QUERY] Estado final:', { 
       id: updated.id, 
-      isActive: updated.isActive, 
+ 
       coinsEarned: updated.coinsEarned 
     });
     

@@ -1,0 +1,174 @@
+.pageContainer {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #5b7ec9 0%, #7eb3cc 50%, #a8d5ba 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+.header {
+  position: absolute;
+  top: 2rem;
+  text-align: center;
+  color: white;
+}
+
+.header h1 {
+  font-size: 1.5rem;
+  margin: 0;
+  font-weight: 600;
+}
+
+.mainContent {
+  background: white;
+  border-radius: 25px;
+  padding: 2.5rem 2rem;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.topControls {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  width: 100%;
+  height: 60px;
+}
+
+.emptyControls {
+  width: 100%;
+  height: 60px;
+}
+
+.controlBtn {
+  width: 56px;
+  height: 56px;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.4rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.playBtn {
+  background: #ff9800;
+  color: white;
+}
+
+.playBtn:hover {
+  background: #e68900;
+  transform: scale(1.05);
+  box-shadow: 0 6px 16px rgba(255, 152, 0, 0.3);
+}
+
+.pauseBtn {
+  background: #ff9800;
+  color: white;
+}
+
+.pauseBtn:hover {
+  background: #e68900;
+  transform: scale(1.05);
+  box-shadow: 0 6px 16px rgba(255, 152, 0, 0.3);
+}
+
+.resetBtn {
+  background: #555;
+  color: white;
+}
+
+.resetBtn:hover {
+  background: #333;
+  transform: scale(1.05);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+.soundBtn {
+  background: #333;
+  color: white;
+}
+
+.soundBtn:hover {
+  background: #111;
+  transform: scale(1.05);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+}
+
+.endBtn {
+  background: #4caf50;
+  color: white;
+}
+
+.endBtn:hover {
+  background: #45a049;
+  transform: scale(1.05);
+  box-shadow: 0 6px 16px rgba(76, 175, 80, 0.3);
+}
+
+.cycleCounter {
+  text-align: center;
+  font-size: 0.95rem;
+  color: #888;
+  padding: 0.75rem 1.5rem;
+  background: #f5f5f5;
+  border-radius: 12px;
+  width: 100%;
+  margin: 0;
+}
+
+.dots {
+  margin-left: 0.75rem;
+  display: inline-flex;
+  gap: 0.6rem;
+  font-size: 1rem;
+}
+
+.filledDot {
+  color: #aaa;
+  opacity: 1;
+}
+
+.emptyDot {
+  color: #ddd;
+  opacity: 0.6;
+}
+
+.errorMessage {
+  background: #ffebee;
+  color: #c62828;
+  padding: 1rem;
+  border-radius: 12px;
+  text-align: center;
+  width: 100%;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+  .pageContainer {
+    padding: 1rem;
+  }
+
+  .mainContent {
+    padding: 2rem 1.5rem;
+    max-width: 100%;
+  }
+
+  .controlBtn {
+    width: 48px;
+    height: 48px;
+    font-size: 1.2rem;
+  }
+}

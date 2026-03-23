@@ -1,4 +1,5 @@
 import { UserProvider } from '@/app/context/UserContext';
+import '@/app/globals.css';
 
 export const metadata = {
   title: 'Mochidoro',

@@ -24,39 +24,30 @@ const getDurationByType = (type) => {
   return SESSION_TYPES[type];
 };
 
-// Calcular si la sesión se completó y monedas ganadas
-const calculateSessionResult = (type, minutesCompleted) => {
-  const expectedDuration = SESSION_TYPES[type];
-  const isCompleted = minutesCompleted === expectedDuration;
-
-  // Calcular monedas: siempre 1 moneda por minuto
-  let coins = minutesCompleted;
+// Calcular monedas para sesión completada (ASUME QUE SIEMPRE ES COMPLETA)
+const calculateCoinsForCompletedSession = (type) => {
+  let coins = 0;
   
-  if (isCompleted) {
-    // Agregar bonus solo si se completa
-    if (type === 'session') {
-      coins += 5;
-      console.log('[FUNCTION] 🎁 +5 bonus por completar session (25 min) = 30 monedas');
-    } else if (type === 'long-session') {
-      coins += 10;
-      console.log('[FUNCTION] 🎁 +10 bonus por completar long-session (60 min) = 70 monedas');
-    } else if (type === 'break') {
-      console.log('[FUNCTION] ✅ Break completado (5 min) = 5 monedas');
-    } else if (type === 'long-break') {
-      coins = 10; // Special case: 10 monedas fijas
-      console.log('[FUNCTION] ✅ Long-break completado (15 min) = 10 monedas');
-    }
-  } else {
-    console.log('[FUNCTION] ⚠️  Sesión no completada. Esperaba', expectedDuration, 'min, completó', minutesCompleted, 'min. Gana 1 moneda por minuto (sin bonus)');
+  if (type === 'session') {
+    coins = 25 + 5; // 25 min + 5 bonus = 30 monedas
+    console.log('[FUNCTION] 💰 Session completada: 30 monedas (25 min + 5 bonus)');
+  } else if (type === 'long-session') {
+    coins = 60 + 10; // 60 min + 10 bonus = 70 monedas
+    console.log('[FUNCTION] 💰 Long-session completada: 70 monedas (60 min + 10 bonus)');
+  } else if (type === 'break') {
+    coins = 5; // 5 min break = 5 monedas
+    console.log('[FUNCTION] 💰 Break completado: 5 monedas');
+  } else if (type === 'long-break') {
+    coins = 10; // 15 min long-break = 10 monedas
+    console.log('[FUNCTION] 💰 Long-break completado: 10 monedas');
   }
-
-  console.log('[FUNCTION] 💰 Monedas calculadas:', coins, '| Completado:', isCompleted);
-  return { coins, isCompleted, expectedDuration };
+  
+  return { coins };
 };
 
 module.exports = {
   validateSessionType,
   getDurationByType,
-  calculateSessionResult,
+  calculateCoinsForCompletedSession,
   SESSION_TYPES,
 };

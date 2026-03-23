@@ -1,5 +1,7 @@
 'use client';
 
+import styles from './PomodoroControls.module.css';
+
 export const PomodoroControls = ({ 
   isRunning, 
   isSessionActive,
@@ -10,12 +12,12 @@ export const PomodoroControls = ({
   error 
 }) => {
   return (
-    <div className="controls-container">
-      <div className="button-group">
+    <div className={styles.controlsContainer}>
+      <div className={styles.buttonGroup}>
         {!isSessionActive ? (
           <button 
             onClick={onStart}
-            className="btn btn-primary"
+            className={`${styles.btn} ${styles.btnPrimary}`}
           >
             Comenzar
           </button>
@@ -23,19 +25,19 @@ export const PomodoroControls = ({
           <>
             <button 
               onClick={onToggleTimer}
-              className={`btn ${isRunning ? 'btn-pause' : 'btn-play'}`}
+              className={`${styles.btn} ${isRunning ? styles.btnPause : styles.btnPlay}`}
             >
               {isRunning ? 'Pausar' : 'Reanudar'}
             </button>
             <button 
               onClick={onReset}
-              className="btn btn-reset"
+              className={`${styles.btn} ${styles.btnReset}`}
             >
               Reiniciar
             </button>
             <button 
               onClick={onEnd}
-              className="btn btn-end"
+              className={`${styles.btn} ${styles.btnEnd}`}
             >
               Finalizar
             </button>
@@ -44,111 +46,10 @@ export const PomodoroControls = ({
       </div>
 
       {error && (
-        <div className="error-message">
+        <div className={styles.errorMessage}>
           {error}
         </div>
       )}
-
-      <style jsx>{`
-        .controls-container {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 2rem;
-          margin-top: 3rem;
-          width: 100%;
-        }
-
-        .button-group {
-          display: flex;
-          gap: 1rem;
-          justify-content: center;
-          flex-wrap: wrap;
-        }
-
-        .btn {
-          padding: 0.75rem 1.5rem;
-          font-size: 1rem;
-          font-weight: 600;
-          border: none;
-          border-radius: 8px;
-          cursor: pointer;
-          transition: all 0.3s ease;
-          min-width: 120px;
-        }
-
-        .btn-primary {
-          background: #4CAF50;
-          color: white;
-        }
-
-        .btn-primary:hover {
-          background: #45a049;
-          transform: scale(1.05);
-        }
-
-        .btn-play {
-          background: #2196F3;
-          color: white;
-        }
-
-        .btn-play:hover {
-          background: #0b7dda;
-          transform: scale(1.05);
-        }
-
-        .btn-pause {
-          background: #ff9800;
-          color: white;
-        }
-
-        .btn-pause:hover {
-          background: #e68900;
-          transform: scale(1.05);
-        }
-
-        .btn-reset {
-          background: #f44336;
-          color: white;
-        }
-
-        .btn-reset:hover {
-          background: #da190b;
-          transform: scale(1.05);
-        }
-
-        .btn-end {
-          background: #9C27B0;
-          color: white;
-        }
-
-        .btn-end:hover {
-          background: #7b1fa2;
-          transform: scale(1.05);
-        }
-
-        .error-message {
-          background: #ffebee;
-          color: #c62828;
-          padding: 1rem;
-          border-radius: 8px;
-          text-align: center;
-          width: 100%;
-          max-width: 400px;
-        }
-
-        @media (max-width: 768px) {
-          .button-group {
-            gap: 0.5rem;
-          }
-
-          .btn {
-            padding: 0.6rem 1rem;
-            font-size: 0.9rem;
-            min-width: 100px;
-          }
-        }
-      `}</style>
     </div>
   );
 };

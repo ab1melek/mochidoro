@@ -1,36 +1,35 @@
 'use client';
 
-export const PomodoroTimer = ({ timeRemaining, formatTime }) => {
+import styles from './PomodoroTimer.module.css';
+
+export const PomodoroTimer = ({ timeRemaining, formatTime, totalDuration = 1500 }) => {
+  // Calculate progress (0-1) based on actual session duration
+  const progress = (totalDuration - timeRemaining) / totalDuration;
+  const circumference = 2 * Math.PI * 90; // radius 90
+  const offset = circumference * (1 - progress);
+
   return (
-    <div className="timer-container">
-      <div className="timer-display">
+    <div className={styles.timerContainer}>
+      <svg className={styles.timerSvg} viewBox="0 0 200 200">
+        {/* Background circle */}
+        <circle
+          cx="100"
+          cy="100"
+          r="90"
+          className={styles.circleBackground}
+        />
+        {/* Progress circle */}
+        <circle
+          cx="100"
+          cy="100"
+          r="90"
+          className={styles.circleProgress}
+          style={{ strokeDashoffset: offset }}
+        />
+      </svg>
+      <div className={styles.timerDisplay}>
         {formatTime(timeRemaining)}
       </div>
-      <style jsx>{`
-        .timer-container {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          width: 100%;
-        }
-
-        .timer-display {
-          font-size: 7rem;
-          font-weight: bold;
-          font-family: 'Courier New', monospace;
-          color: #333;
-          letter-spacing: 0.1em;
-          text-align: center;
-          min-width: 400px;
-        }
-
-        @media (max-width: 768px) {
-          .timer-display {
-            font-size: 4rem;
-            min-width: 300px;
-          }
-        }
-      `}</style>
     </div>
   );
 };
