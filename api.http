@@ -11,41 +11,6 @@ POST {{baseUrl}}/api/v1/debug/seed-user
 ### DEBUG - Seed Species (Mochi)
 POST {{baseUrl}}/api/v1/debug/seed-species
 
-### Pomodoro - START (session: 25min)
-POST {{baseUrl}}/api/v1/pomodoro/start
-Content-Type: application/json
-
-{
-  "userId": 1,
-  "type": "session"
-}
-
-### Pomodoro - START (long-session: 60min)
-POST {{baseUrl}}/api/v1/pomodoro/start
-Content-Type: application/json
-
-{
-  "userId": 1,
-  "type": "long-session"
-}
-
-### Pomodoro - START (break: 5min)
-POST {{baseUrl}}/api/v1/pomodoro/start
-Content-Type: application/json
-
-{
-  "userId": 1,
-  "type": "break"
-}
-
-### Pomodoro - START (long-break: 15min)
-POST {{baseUrl}}/api/v1/pomodoro/start
-Content-Type: application/json
-
-{
-  "userId": 1,
-  "type": "long-break"
-}
 
 ### Pomodoro - END (completó 25 minutos - gana monedas)
 POST {{baseUrl}}/api/v1/pomodoro/end
@@ -53,6 +18,7 @@ Content-Type: application/json
 
 {
   "userId": 1,
+  "type": "session",
   "minutesCompleted": 25
 }
 

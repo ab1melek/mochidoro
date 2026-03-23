@@ -57,7 +57,6 @@ const endPomodoroService = async (userId, minutesCompleted, type) => {
   const updated = await updatePomodoroSession(activeSession.id, {
     minutesCompleted,
     coinsEarned,
-    isActive: false,
   });
 
   // 5. Sumar monedas al usuario

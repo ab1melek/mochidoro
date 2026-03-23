@@ -19,7 +19,8 @@ const getActiveSessionByUserId = async (userId) => {
   console.log('[QUERY] Buscando sesión activa para usuario:', userId);
   
   const activeSession = await PomodoroSession.findOne({
-    where: { userId, isActive: true },
+    where: { userId },
+    order: [['createdAt', 'DESC']],
   });
 
   if (activeSession) {
@@ -45,7 +46,6 @@ const createPomodoroSession = async (userId, type) => {
     userId,
     type,
     coinsEarned: 0,
-    isActive: true,
   });
 
   console.log('[QUERY] ✅ Sesión creada:', session.id, 'Tipo:', type);
