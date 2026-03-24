@@ -19,16 +19,25 @@
 - ✅ Play/Pausa/Reset siempre visibles
 - ✅ Click sesión = reinicia + pausa (no inicia automático)
 - ✅ Círculo SVG progresa según duración real
-- ✅ Auto-POST a `/api/v1/pomodoro/end` cuando llega a 0:00
+- ✅ Auto-POST a `/api/v1/pomodoro/end` cuando llega a 0:00 (MODO MOCK - no guarda en BD)
 - ✅ Sonido: Fart en botones, Fortnite death en completación
 - ✅ Toggle sonido 🔊/🔇 en barra de controles
 - ✅ Ciclos incrementan solo en Pomodoro (25 min)
 - ✅ Timer reinicia automáticamente después de completar
+- ✅ **NUEVO**: Mochi integrado en círculo de progreso
+  - Cambio dinámico de imagen según estado (tranquilo/move/dormido/tomando-aguita)
+  - Tamaño aumentado (220px x 220px) para mejor visibilidad
+  - Colores verdes congruentes (#D4E8B1 - #E8F5A8 background, #A8D963 progreso)
+  - Título "✨ Mochidoro ✨" afuera de la tarjeta
+  - Espacios optimizados entre componentes
 
-### Backend Funcional
-- ✅ POST `/api/v1/pomodoro/end` → crea sesión implícita + guarda + otorga monedas
-- ✅ Monedas: 30 (session), 5 (break), 10 (long-break)
-- ✅ Auto-eclosiona mascota a 25 minutos acumulados
+### Backend (Temporalmente Desactivado para Desarrollo de Usuarios)
+- ⚠️  POST `/api/v1/pomodoro/end` → **MODO MOCK** (no guarda en BD)
+  - Devuelve success: true pero sin persistencia
+  - Temporal mientras se arregla el sistema de usuarios
+  - Código listo para reactivar: descomentar llamada a `endPomodoroService()`
+- ✅ Monedas: 30 (session), 5 (break), 10 (long-break) [lógica lista, no aplica en MOCK]
+- ✅ Auto-eclosiona mascota a 25 minutos acumulados [lógica lista, no aplica en MOCK]
 - ✅ Endpoint solo espera: `{userId, minutesCompleted, type}`
 
 ### BD Limpieza
@@ -138,15 +147,32 @@ Backend: POST recibido → Crea sesión + Guarda + Otorga monedas
 
 ## Para Siguiente Agente
 
+### Cambios Recientes (Sesión Actual)
+1. **Revisión Completa del Codebase**: Verificado que está más avanzado de lo documentado
+   - Timer 100% funcional ✅
+   - Mascotas backend lista ✅
+   - Solo falta UI y sistema de usuarios
+
+2. **UI de Mochi Implementada**:
+   - Componente `PomodoroTimer` actualizado con wrapper de Mochi
+   - Imágenes dinámicas según estado: mochi-tranquilo.png, mochi-move.png, mochi-tomando-aguita.png, mochi-dormido.png
+   - Círculo SVG con Mochi dentro, progreso dinámico
+   - Colores verdes congruentes con Mochi: #D4E8B1-#E8F5A8 (background), #A8D963 (progreso)
+   - Botones Play/Pomodoro verde #A8D963 (consistentes)
+   - Título afuera de tarjeta, espacios optimizados
+
+3. **Backend en Modo MOCK Temporal**:
+   - POST `/api/v1/pomodoro/end` devuelve success sin tocar BD
+   - Línea a descomentar: `const result = await endPomodoroService(userId, minutesCompleted, type);`
+   - Motivo: Arreglar sistema de usuarios antes de persistir datos
+
 ### Órden de Prioridad
-1. **Primero**: Resetear BD (eliminar `isActive` column, seedear pet_species)
-2. **Luego**: Crear páginas de UI (Mascotas, Tienda, Perfil)
-3. **Finalmente**: Implementar endpoints GET faltantes
+1. **AHORA**: Arreglar sistema de usuarios (userId real, auth o mock mejorado)
+2. **LUEGO**: Descomentar llamadas a BD en pomodoro.service
+3. **DESPUÉS**: Crear páginas de UI (Mascotas, Tienda, Perfil)
+4. **FINALMENTE**: Implementar endpoints GET faltantes
 
 ### Si el servidor no levanta:
 - Verificar: `npm run dev` da error "Unknown system error -35"
 - Soluciones: `pkill -9 node`, `rm -rf .next node_modules/.vite`, `npm install`, reintentar
 - O: Rebuild dev container
-2. Verificar servidor levanta limpio
-3. Probar flow completo: timer 5seg → complete → check monedas en BD
-4. Luego: Iniciar UI de mascotas y tienda

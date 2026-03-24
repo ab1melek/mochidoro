@@ -2,6 +2,8 @@
  * POST /api/v1/pomodoro/end
  * Finaliza la sesión o crea+finaliza si no existe (para frontend local-first)
  * Body: { userId, minutesCompleted, type }
+ * 
+ * ⚠️  TEMPORALMENTE DESACTIVADO: No guarda en BD mientras se arregla el sistema de usuarios
  */
 
 const { endPomodoroService } = require('../pomodoro.service');
@@ -19,17 +21,28 @@ export async function POST(request) {
       throw new Error('userId y minutesCompleted son requeridos');
     }
 
-    // Llamar al service (que obtiene la sesión activa o la crea si es necesario)
-    const result = await endPomodoroService(userId, minutesCompleted, type);
+    // ⚠️  TEMPORAL: Mock response sin tocar BD
+    console.log('[ROUTE] ⚠️  MODO MOCK: No se guarda en BD');
+    const mockResult = {
+      id: Math.random(),
+      userId,
+      minutesCompleted,
+      type,
+      coinsEarned: 0,
+      createdAt: new Date(),
+    };
 
     return Response.json(
       {
         success: true,
-        message: 'Pomodoro finalizado',
-        data: result,
+        message: 'Pomodoro finalizado (MOCK - sin BD)',
+        data: mockResult,
       },
       { status: 200 }
     );
+
+    // Comentado temporalmente:
+    // const result = await endPomodoroService(userId, minutesCompleted, type);
   } catch (error) {
     console.error('[ROUTE ERROR]:', error.message);
 
