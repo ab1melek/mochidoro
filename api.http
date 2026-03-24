@@ -22,15 +22,6 @@ Content-Type: application/json
   "minutesCompleted": 25
 }
 
-### Pomodoro - END (completó solo 10 minutos - NO gana monedas)
-POST {{baseUrl}}/api/v1/pomodoro/end
-Content-Type: application/json
-
-{
-  "userId": 1,
-  "minutesCompleted": 10
-}
-
 ### Pets - BUY EGG (Mochi: 25 monedas)
 POST {{baseUrl}}/api/v1/pets/buy-egg
 Content-Type: application/json

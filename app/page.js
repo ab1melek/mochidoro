@@ -25,10 +25,7 @@ export default function Home() {
 
   return (
     <div className={styles.pageContainer}>
-      <header className={styles.header}>
-        <h1>🍅 Mochidoro</h1>
-      </header>
-
+      <h1 className={styles.title}>✨ Mochidoro ✨</h1>
       <main className={styles.mainContent}>
         {/* Control buttons on top - Show play/pause, reset and sound toggle */}
         <div className={styles.topControls}>
@@ -66,6 +63,8 @@ export default function Home() {
           timeRemaining={timeRemaining}
           formatTime={formatTime}
           totalDuration={SESSION_TYPE_CONFIG[sessionType].duration}
+          isRunning={isRunning}
+          sessionType={sessionType}
         />
 
         {/* Cycle counter */}

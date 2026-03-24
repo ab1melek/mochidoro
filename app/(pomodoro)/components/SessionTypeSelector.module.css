@@ -30,16 +30,16 @@
 }
 
 .sessionButton:hover:not(:disabled) {
-  border-color: #ff9800;
-  background: #fff8f0;
-  box-shadow: 0 4px 12px rgba(255, 152, 0, 0.15);
+  border-color: #A8D963;
+  background: #f0f8e6;
+  box-shadow: 0 4px 12px rgba(168, 217, 99, 0.15);
 }
 
 .sessionButton.active {
-  background: #ff9800;
+  background: #A8D963;
   color: white;
-  border-color: #ff9800;
-  box-shadow: 0 4px 12px rgba(255, 152, 0, 0.3);
+  border-color: #A8D963;
+  box-shadow: 0 4px 12px rgba(168, 217, 99, 0.3);
 }
 
 .sessionButton:disabled {

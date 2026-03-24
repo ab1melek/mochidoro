@@ -32,6 +32,9 @@ export default function PomodoroPdao() {
         <PomodoroTimer 
           timeRemaining={timeRemaining}
           formatTime={formatTime}
+          totalDuration={SESSION_TYPES[sessionType] * 60}
+          isRunning={isRunning}
+          sessionType={sessionType}
         />
 
         {!isSessionActive && (
